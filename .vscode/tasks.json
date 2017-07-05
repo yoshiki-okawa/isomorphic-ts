@@ -1,0 +1,25 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "0.1.0",
+	"showOutput": "silent",
+	"tasks": [
+		{
+			"taskName": "build",
+			"command": "gulp",
+			"args": [
+				"build"
+			],
+			"isBuildCommand": true,
+			"isShellCommand": true
+		},
+		{
+			"taskName": "build-prod",
+			"command": "gulp",
+			"args": [
+				"build-prod"
+			],
+			"isShellCommand": true
+		}
+	]
+}
