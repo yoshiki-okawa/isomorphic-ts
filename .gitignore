@@ -1,5 +1,8 @@
 node_modules
-client/*.js*
-server/*.js*
-common/*.js*
+client/*.js.*
+client/*.js
+server/*.js.*
+server/*.js
+common/*.js.*
+common/*.js
 npm-debug.log
