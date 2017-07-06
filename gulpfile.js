@@ -8,11 +8,13 @@ var tsify = require("tsify");
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
-var exec = require('child_process').exec;
+var spawn = require('child_process').spawnSync;
+var nodemon = require('gulp-nodemon');
 
-gulp.task('build', function () {
+gulp.task('build', () => {
 	return [
-		exec('tsc -p server'),
+		spawn('node', ['node_modules/typescript/bin/tsc', '-p', 'server'], { stdio: 'inherit' }),
+		spawn('node', ['node_modules/typescript/bin/tsc', '-p', 'test'], { stdio: 'inherit' }),
 
 		browserify({
 			entries: ["./client/index.ts"],
@@ -28,9 +30,11 @@ gulp.task('build', function () {
 			.pipe(gulp.dest('./'))
 	];
 });
-gulp.task('build-prod', function () {
+
+gulp.task('build-prod', () => {
 	return [
-		exec('tsc -p server'),
+		spawn('node', ['node_modules/typescript/bin/tsc', '-p', 'server'], { stdio: 'inherit' }),
+		spawn('node', ['node_modules/typescript/bin/tsc', '-p', 'test'], { stdio: 'inherit' }),
 
 		browserify({
 			entries: ["./client/index.ts"],
@@ -44,4 +48,12 @@ gulp.task('build-prod', function () {
 			.on('error', gutil.log)
 			.pipe(gulp.dest('./'))
 	];
+});
+
+gulp.task('start', (cb) => {
+	spawn('node', ['server/index.js', 'server'], { stdio: 'inherit' });
+});
+
+gulp.task('test', () => {
+	spawn('node', ['node_modules/mocha/bin/_mocha', '--recursive'], { stdio: 'inherit' });
 });
