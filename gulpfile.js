@@ -9,7 +9,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
 var spawn = require('child_process').spawnSync;
-var nodemon = require('gulp-nodemon');
 
 gulp.task('build', () => {
 	return [
