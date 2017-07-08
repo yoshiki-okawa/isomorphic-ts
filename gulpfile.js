@@ -41,7 +41,7 @@ gulp.task('build-prod', () => {
 			basedir: './client'
 		}).plugin(tsify, {project:'./client'})
 			.bundle()
-			.pipe(source('./index.js'))
+			.pipe(source('index.js'))
 			.pipe(buffer())
 			// Add transformation tasks to the pipeline here.
 			.pipe(uglify())
