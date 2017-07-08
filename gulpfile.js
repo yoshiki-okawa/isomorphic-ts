@@ -16,17 +16,18 @@ gulp.task('build', () => {
 		spawn('node', ['node_modules/typescript/bin/tsc', '-p', 'test'], { stdio: 'inherit' }),
 
 		browserify({
-			entries: ["./client/index.ts"],
-			debug: true
-		}).plugin(tsify)
+			entries: ["./index.ts"],
+			debug: true,
+			basedir: './client'
+		}).plugin(tsify, {project:'./client'})
 			.bundle()
-			.pipe(source('./client/index.js'))
+			.pipe(source('index.js'))
 			.pipe(buffer())
 			.pipe(sourcemaps.init({ loadMaps: true }))
 			// Add transformation tasks to the pipeline here.
 			.on('error', gutil.log)
 			.pipe(sourcemaps.write('./'))
-			.pipe(gulp.dest('./'))
+			.pipe(gulp.dest('./client'))
 	];
 });
 
@@ -36,21 +37,21 @@ gulp.task('build-prod', () => {
 		spawn('node', ['node_modules/typescript/bin/tsc', '-p', 'test'], { stdio: 'inherit' }),
 
 		browserify({
-			entries: ["./client/index.ts"],
-			debug: true
-		}).plugin(tsify)
+			entries: ["./index.ts"],
+			basedir: './client'
+		}).plugin(tsify, {project:'./client'})
 			.bundle()
-			.pipe(source('./client/index.js'))
+			.pipe(source('./index.js'))
 			.pipe(buffer())
 			// Add transformation tasks to the pipeline here.
 			.pipe(uglify())
 			.on('error', gutil.log)
-			.pipe(gulp.dest('./'))
+			.pipe(gulp.dest('./client'))
 	];
 });
 
 gulp.task('start', (cb) => {
-	spawn('node', ['server/index.js', 'server'], { stdio: 'inherit' });
+	spawn('node', ['server/out/server/index.js', 'server'], { stdio: 'inherit' });
 });
 
 gulp.task('test', () => {
